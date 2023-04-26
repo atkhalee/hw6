@@ -82,9 +82,9 @@ std::set<std::string> boggle(const std::set<std::string>& dict, const std::set<s
 	{
 		for(unsigned int j=0;j<board.size();j++)
 		{
-			boggleHelper(dict, prefix, board, "", result, i, j, 0, 1);
-			boggleHelper(dict, prefix, board, "", result, i, j, 1, 0);
-			boggleHelper(dict, prefix, board, "", result, i, j, 1, 1);
+			boggleHelper(dict, prefix, board, "", result, i, j, 0, 1); //horizontally
+			boggleHelper(dict, prefix, board, "", result, i, j, 1, 0); //vertically
+			boggleHelper(dict, prefix, board, "", result, i, j, 1, 1); //diagonally
 		}
 	}
 	
@@ -95,5 +95,121 @@ bool boggleHelper(const std::set<std::string>& dict, const std::set<std::string>
 								   std::string word, std::set<std::string>& result, unsigned int r, unsigned int c, int dr, int dc)
 {
 //add your solution here!
+//r and c are current positions on the board
+//dr and dc set the sear direction --> they do not need to change
+//use dr and dc to set r and c as you recurse to the next positions
+//insert only the longest word into result
+//don't worru about the future iterations
+/*
+check row and column
+case:
+r +1
+c+1
+(r and c) +1
+//check if the letter is a prefix or not a
+*/
+//if r == board [i][j] --> the ith value
+
+if(r == board.size() || c == board.size())
+{
+	//checking the word in dictionary
+	if(dict.find(word) != dict.end())
+	{
+		std::cout<<word<<std::endl;
+		result.insert(word);
+		//if(prefix.find(word) ==prefix.end())
+		
+		
+		return true;
+	}
+
+	return false;
+}
+if(dr ==0 && r < board[0].size())
+{
+	//need to check per row
+	word += board[r][c];
+	c+=dc;
+	//return boggleHelper(dict, prefix, board, word, result, r, c, dr,dc);
+}
+//two cases: board.size() and 
+if(dc == 0 && r < board[0].size())
+{
+	word += board[r][c];
+	r+=dr;
+	//return boggleHelper(dict, prefix, board, word, result, r, c, dr, dc);
+}
+if(dc ==1 && dr ==1)
+{
+	word += board[r][c];
+	c+=dc;
+	r+=dr;
+	//return boggleHelper(dict, prefix, board, word, result, r+1, c, dr,dc);
+}
+
+// bool search = boggleHelper(dict, prefix, board, word, result, r, c, dr, dc);
+
+// if(search == false)
+// {
+// 	if(prefix.find(word)!=prefix.end())
+// 	{
+// 	if(dict.find(word)!= dict.end())
+// 		{
+// 			result.insert(word);
+// 			return true;
+// 		}
+// 	}
+// 	return false;
+// }
+// else
+// {
+// 	//search results in true --> check in dictionary
+// 	if(dict.find(word) != dict.end())
+// 	{
+// 		result.insert(word);
+// 		return true;
+// 	}
+// 	return false;
+// }
+
+
+
+
+//check if still prefix
+if(prefix.find(word) != prefix.end())
+{
+ 	bool search = boggleHelper(dict, prefix, board, word, result, r, c, dr, dc);
+	//if this return false
+	//check if word is in dict
+
+	if(search == false)
+	{
+		if(dict.find(word)!= dict.end())
+		{
+			result.insert(word);
+			return true;
+		}
+
+	}
+	
+	return search;
+}
+else
+{
+	if(dict.find(word) != dict.end())
+	{
+		result.insert(word);
+		return true;
+	}
+	return false;
+
+	//return;
+}
+//if it iss recurse
+//otherwise check if word is in dict and return;
+
+//recurse
+
+//----------
 
 }
